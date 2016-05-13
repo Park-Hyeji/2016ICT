@@ -7,7 +7,7 @@
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	<script>
 		$(document).ready(function(){
-			//socket 부분 코딩
+			//socket 부분 코딩s
 			var socket = io();
 			var now = new Date();
 			var a;
@@ -105,28 +105,29 @@
 			});
 			
 			socket.on('chat message', function(msg){
-			if(msg.name == id){
-				if(msg.message){
-					if(msg.img){
-						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
+				if(msg.name == id){
+					if(msg.message){
+						if(msg.img){
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
+						}else{
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
+						}
 					}else{
-						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
+						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "</div></div><br>");
 					}
 				}else{
-					$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "</div></div><br>");
-				}
-			}else{
-				if(msg.message){
-					if(msg.img){
-						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
+					if(msg.message){
+						if(msg.img){
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
+						}else{
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
+						}
 					}else{
-						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
+						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
 					}
-				}else{
-					$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
 				}
-			}
-		});	
+			});	
+		});
 	</script> 
   </head>
 	<body onresize="parent.resizeTo(800,870)" onload="parent.resizeTo(800,870)">

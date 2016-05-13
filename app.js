@@ -80,7 +80,7 @@ var server = app.listen(app.get('port'), function(){
 
 var io = socketio.listen(server);
 
-io.sockets.on('connection',function(socket){
+io.sockets.on('connection' ,function(socket){
 	var room_id;
 	console.log("enter chatting");
 	socket.on('joinRoom',function(data){
