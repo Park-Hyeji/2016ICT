@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chatting 페이지</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+	<script>
+		$(document).ready(function(){
+			//socket 부분 코딩
+			var socket = io();
+			var now = new Date();
+			var a;
+			var b;
+			var imgId = "";
+			if(now.getHours()<12){
+				a = "오전";
+			}else{
+				a = "오후";
+			}
+			if(now.getMinutes()<10){
+				b = "0";
+			}else{
+				b = "";
+			}
+			var nowAll =  a +" " + now.getHours() + ":" + now.getMinutes();				
+			var splitString = window.location.search.split('?'); //url에서 처음부터 '?'까지 삭제
+			var splitString2 = splitString[1].split('&');
+			var id_temp = splitString2[0].split('=');
+			var id = id_temp[1];
+			var room_temp = splitString2[1].split('=');
+			var room = room_temp[1];
+			var bool = 0;			
+			
+			//엔터 키 누르면 전송
+			$("#listForm input[name=srch_text]").keydown(function(e){
+				if(e.keyCode == 13){
+					e.cancelBubble = true;
+					$("#send").click();
+					return false;
+				}
+			});
+			
+			//아이콘 누르면 아이콘이 저장되어 있는 div 보이고 안보이고 하는 부분
+			$("#iconBtn").click(function(){
+				if(bool == 0){
+					$("#icon").show();
+					$("#iconWindow").empty();
+					$("#iconWindow").hide();
+					$("#iconWindowClose").hide();
+					$("#chat").css('padding-bottom:$("#iconWindow").height()');
+					bool = 1;
+				}
+				else{
+					$("#icon").hide();
+					bool = 0;
+				}
+			});
+			
+			//아이콘 클릭 시 message부분 저장하는 부분
+			$(".iconTd").click(function(){
+				$("#icon").hide();
+				bool = 0;
+				imgId = "<img src='./images/icon/"+$(this).attr('id')+".png'>";
+				$("#iconWindow").append("<img src='./images/icon/"+$(this).attr('id')+".png'>");
+				$("#iconWindow").show();
+				$("#iconWindowClose").show();
+			});
+			
+			//아이콘 윈도우 닫는 부분
+			$("#iconWindowClose").click(function(){
+				$('#new-message').empty();
+				$("#iconWindowClose").hide();
+				$("#iconWindow").empty();
+				$("#iconWindow").hide();
+			});
+			
+			$("#send").click(function(){
+				$("#iconWindow").empty();
+				$("#iconWindow").hide();
+				$("#iconWindowClose").hide();
+				if($('#new-message').val() == "" && imgId == ""){
+				}else{
+					//socket.emit('joinroom',{
+						//room : room,
+						socket.emit('new message', {
+							name : id,
+							message : $('#new-message').val(),
+							img : imgId
+						});
+					//});
+					$('#new-message').val('');
+					imgId = "";
+				}
+			});
+			
+			socket.on('chat message', function(msg){
+				if(msg.name == id){
+					if(msg.message){
+						if(msg.img){
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
+						}else{
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
+						}
+					}else{
+						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "</div></div><br>");
+					}
+				}else{
+					if(msg.message){
+						if(msg.img){
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
+						}else{
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
+						}
+					}else{
+						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
+					}
+				}
+			 });
+		});
+	</script> 
+  </head>
+	<body onresize="parent.resizeTo(800,870)" onload="parent.resizeTo(800,870)">
+		<div id="chat">
+			<div id="chattingArea">
+				<ul id="messages-area"></ul>
+			</div>
+			<button id="iconWindowClose">X</button>
+			<div id="iconWindow">
+			</div>
+			<div id="messageArea">
+				<button id="iconBtn">+</button>
+				<form id="form" onsubmit="return false;">
+					<input id="new-message" type="text" placeholder="Search" style="width:75%">
+					<input type="button" value="전송" id="send" style="width:16%">
+				</form>
+			</div>
+		</div>
+		<div id="icon">
+			<div id="iconTop">
+				<button id="previous">이전</button>
+					<p id="iconName" align="center">이모티콘 이름</p>
+				<button id="next">다음</button>
+			</div>
+			<div id="iconBottom">
+				<table>
+					<tr>
+						<td class="iconTd" id="pre_1"><img src="./images/icon/pre_1.png"></td>
+						<td class="iconTd" id="pre_2"><img src="./images/icon/pre_2.png"></td>
+						<td class="iconTd" id="pre_3"><img src="./images/icon/pre_3.png"></td>
+						<td class="iconTd" id="pre_4"><img src="./images/icon/pre_4.png"></td>
+					</tr>
+					<tr>
+						<td class="iconTd" id="pre_5"><img src="./images/icon/pre_5.png"></td>
+						<td class="iconTd" id="pre_6"><img src="./images/icon/pre_6.png"></td>
+						<td class="iconTd" id="pre_7"><img src="./images/icon/pre_7.png"></td>
+						<td class="iconTd" id="pre_8"><img src="./images/icon/pre_8.png"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+    </body>
+</html>

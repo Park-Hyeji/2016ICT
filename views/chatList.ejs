@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chatList 페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+	<link rel="stylesheet" href="stylesheets/style.css">
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+	<script>
+		var bool = 0;
+		var now = new Date();
+		var nowAll = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + " ";				
+		$(document).ready(function(){		
+			$(function () {
+				$("#AccountWindow").hide();
+				$("#friendAddWindowBack").hide();
+				$("#friendAddWindow").hide(); //친구 추가 div 안 보이게 함
+				//친구 추가 창 유동적으로 하는 부분
+				var windowWidth = $(window).width();
+				var windowHeight = $(window).height();
+				$(window).resize(function(){
+					$("#friendAddWindow").css("margin-left",windowWidth*0.5);
+					$("#friendAddWindow").css("margin-top",windowHeight*0.5);
+				});
+				
+				//tab메뉴 부분
+				$(".tab_content").hide();
+				$(".tab_content:first").show();
+				$("ul.tabs li").click(function () {
+					$("ul.tabs li").removeClass("active").css("color", "#333");
+					$(this).addClass("active").css("color", "darkred");
+					$(".tab_content").hide()
+					var activeTab = $(this).attr("rel");
+					$("#" + activeTab).show()
+				});
+				
+				//채팅리스트 클릭시 채팅 창 띄우는 부분
+				
+					$(".friend_chat_list").click(function(){
+						var nowId = $(this).attr('id');
+						//socket.emit('joinroom', {room: nowId});
+						var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
+						var url = "chatting?id=" + <%= id %> + "&room=" + nowId;
+						winObject = window.open(url,"CHATTING",settings);
+					});		
+				
+		
+				//친구 추가 버튼
+				$("#friendAddFont").click(function(){
+					if(bool == 0){									
+						$("#friendAddWindow").show();
+						$("#friendAddWindowBack").show();
+						bool = 1;
+						$("#friendAddFont").empty();
+						$("#friendAddFont").append("X");
+					}
+					else{
+						$("#friendAddWindow").hide();
+						$("#friendAddWindowBack").hide();
+						bool = 0;
+						$("#friendAddFont").empty();
+						$("#friendAddFont").append("+");
+					}
+				});	
+
+				//친구 추가, 취소 기능
+				$("#add").click(function(){
+					$("#friendIdAdd").val();
+					$("#friendAddWindow").hide();
+					$("#friendAddWindowBack").hide();
+					bool = 0;
+				});
+				$("#cancel").click(function(){
+					$("#friendAddWindow").hide();
+					$("#friendAddWindowBack").hide();
+					bool = 0;
+				});
+				
+				$(".friend_list").click(function(){
+					$("#AccountWindow").show();
+					$("#friendAddWindowBack").show();
+					var imgAddr = $(this).find('img').attr('src');
+					//id값으로 select해서 나온 이미지 이름 넣기
+					$("#AccountWindowImg").attr('src',imgAddr);			
+				});
+				
+				$("#btnCancel").click(function(){
+					$("#AccountWindow").hide();
+					$("#friendAddWindowBack").hide();
+				});
+			});
+		});
+	</script> 
+  </head>
+	<body>
+		<div id="friendAddWindowBack">
+		</div>
+		<% if(id){ %>
+			<a href="/logout">로그아웃</a>
+		<% } %>
+		<div id="container">
+			<ul class="tabs">
+				<li class="active" rel="tab1">친구 리스트</li>
+				<li rel="tab2">채팅 리스트</li>
+				<li rel="tab3">설정</li>
+			</ul>
+			<div class="tab_container">
+				<div id="tab1" class="tab_content">
+					<div id="friendAdd">
+						<p id="friendAddFont">+</p>
+					</div>
+					<div id="friendAddWindow">
+						친구 아이디 : &nbsp;&nbsp;&nbsp;<input type="text" name="friendIdAdd" id="friendIdAdd">
+						<br><br>
+						<input type="button" id="add" value="추가">
+						<input type="button" id="cancel" value="취소">
+					</div>
+					<div id="AccountWindow">
+						<div id="AccountWindowBack"></div>
+						<div><img id="AccountWindowImg"></div>
+						<div id="AccountWindowBtn">
+							ID
+							<br>
+							select해서 뽑아 옴.
+							<br>
+							<input type="button" id="goChatting" value="1:1채팅하기">
+							<input type="button" id="btnCancel" value="닫기">
+						</div>
+					</div>
+					<b class="contentTop">내 프로필</b>
+					<hr class="gray">
+					<div class="friend_list">
+						<img class="friend_pic" src="./images/hy_pic.png">
+						<div class="friend_font">
+							<div class="friend_nick">
+								내 이름
+							</div>
+							<div class="arrow_box">
+								상태 메시지 표시
+							</div>
+						</div>	
+					</div>
+					<br><br>
+					<b class="contentTop">전체 친구</b>&nbsp;&nbsp;200
+					<hr class="gray">
+					<div class="friend_list">
+						<img class="friend_pic" src="./images/img1.jpg">
+						<div class="friend_font">
+							<div class="friend_nick">
+								박명수
+							</div>
+							<div class="arrow_box">
+								친구 상태 메시지 표시
+							</div>
+						</div>	
+					</div>
+					<hr>
+					<div class="friend_list">
+						<img class="friend_pic" src="./images/img2.jpg">
+						<div class="friend_font">
+							<div class="friend_nick">
+								하정우
+							</div>
+							<div class="arrow_box">
+								친구 상태 메시지 표시
+							</div>
+						</div>	
+					</div>
+				</div>
+				<div id="tab2" class="tab_content">
+				<!-- for문 돌리면서 div 생성 하는 부분-->
+					<div class="friend_chat_list" id="friendId1">
+						<img class="friend_pic" src="./images/img1.jpg">
+						<div class="friend_font">
+							<div class="friend_nick">
+								오징
+							</div>
+							<div class="friend_chat">
+								이렇게 표시가 됩니다.
+							</div>
+						</div>
+						<div class="friend_date">
+							<script> document.write(nowAll); </script>
+						</div>
+					</div>
+					<hr>
+					<div class="friend_chat_list" id="friendId2">
+						<img class="friend_pic" src="./images/img1.jpg">
+						<div class="friend_font">
+							<div class="friend_nick">
+								오징2
+							</div>
+							<div class="friend_chat">
+								이렇게 표시가 됩니다2.
+							</div>
+						</div>
+						<div class="friend_date">
+							<script> document.write(nowAll); </script>
+						</div>
+					</div>
+				</div>
+				<div id="tab3" class="tab_content">
+					설정이당
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
