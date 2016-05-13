@@ -80,35 +80,21 @@ var server = app.listen(app.get('port'), function(){
 
 var io = socketio.listen(server);
 
-var count = 0;
-var rooms = [];
-
-
-io.sockets.on('connection' ,function(socket){
-	var room;
+io.sockets.on('connection',function(socket){
+	var room_id;
 	console.log("enter chatting");
-	/*socket.on('joinroom', function(data){
-		console.log("Enter room : " + data);
-		socket.join(data.room);	
-		socket.on('room', function(data){
-			room = data.room;
-			
-			//방 만들기!!
-			if(rooms[room] == undefined){
-				console.log('room create : ' + room);
-				rooms[room] = new Object();
-				rooms[room].socket_ids = new Object();
-				
-				//입장시 1 사라지는 부분
-				data = {msg: ""};
-				io.sockets.in(room).emit('broadcast_msg', data);
-			}
-		});
-		console.log('a user connected');
-	});*/
+	socket.on('joinRoom',function(data){
+		room_id = data;
+		socket.join(room_id); //룸입장
+		console.log('채팅방 입장',io.sockets.adapter.rooms);
+	});
+	socket.on('leaveRoom',function(){
+		socket.leave(room_id); //룸퇴장
+		console.log('채팅방을 나갔습니다.', io.sockets.adapter.rooms);
+	});
 	socket.on('new message', function(msg){
-			console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
-			io.sockets.emit('chat message', msg);
+		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
+		console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
 	});
 });
 

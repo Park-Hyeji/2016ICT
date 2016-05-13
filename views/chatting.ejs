@@ -75,49 +75,58 @@
 				$("#iconWindow").hide();
 			});
 			
+			//서버로 데이터 전송 부분
 			$("#send").click(function(){
 				$("#iconWindow").empty();
 				$("#iconWindow").hide();
 				$("#iconWindowClose").hide();
 				if($('#new-message').val() == "" && imgId == ""){
 				}else{
-					//socket.emit('joinroom',{
-						//room : room,
-						socket.emit('new message', {
-							name : id,
-							message : $('#new-message').val(),
-							img : imgId
-						});
-					//});
+					socket.emit('new message', {
+						name : id,
+						message : $('#new-message').val(),
+						img : imgId
+					});
 					$('#new-message').val('');
 					imgId = "";
 				}
 			});
 			
+			//채팅방 나가기
+			/*
+			$("#exit").click(function(){
+				socket.emit('leaveRoom');
+			});
+			*/
+
+			//서버로 데이터 보내기
+			socket.on('connect', function(){
+				socket.emit('joinRoom',room);
+			});
+			
 			socket.on('chat message', function(msg){
-				if(msg.name == id){
-					if(msg.message){
-						if(msg.img){
-							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
-						}else{
-							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
-						}
+			if(msg.name == id){
+				if(msg.message){
+					if(msg.img){
+						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
 					}else{
-						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "</div></div><br>");
+						$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
 					}
 				}else{
-					if(msg.message){
-						if(msg.img){
-							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
-						}else{
-							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
-						}
-					}else{
-						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
-					}
+					$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "</div></div><br>");
 				}
-			 });
-		});
+			}else{
+				if(msg.message){
+					if(msg.img){
+						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
+					}else{
+						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
+					}
+				}else{
+					$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
+				}
+			}
+		});	
 	</script> 
   </head>
 	<body onresize="parent.resizeTo(800,870)" onload="parent.resizeTo(800,870)">
