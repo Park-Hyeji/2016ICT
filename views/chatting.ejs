@@ -93,11 +93,12 @@
 			});
 			
 			//채팅방 나가기
-			/*
-			$("#exit").click(function(){
-				socket.emit('leaveRoom');
+			$("#exitChatting").click(function(){
+				//sql처리
+				$("#exit").click(function(){
+					socket.emit('leaveRoom');
+				});
 			});
-			*/
 
 			//서버로 데이터 보내기
 			socket.on('connect', function(){
@@ -108,7 +109,7 @@
 				if(msg.name == id){
 					if(msg.message){
 						if(msg.img){
-							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<br><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
 						}else{
 							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
 						}
@@ -132,6 +133,9 @@
   </head>
 	<body onresize="parent.resizeTo(800,870)" onload="parent.resizeTo(800,870)">
 		<div id="chat">
+			<div id="exitTop">
+				<input type="button" id="exitChatting" value="채팅방 나가기">
+			</div>
 			<div id="chattingArea">
 				<ul id="messages-area"></ul>
 			</div>
