@@ -82,7 +82,7 @@ var io = socketio.listen(server);
 
 io.sockets.on('connection' ,function(socket){
 	var room_id;
-	console.log("enter chatting");
+	console.log("enter chatting"); //서버에 연결되면 "enter chatting" 로그 찍어냄
 	socket.on('joinRoom',function(data){
 		room_id = data;
 		socket.join(room_id); //룸입장

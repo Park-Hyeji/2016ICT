@@ -7,8 +7,8 @@
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	<script>
 		$(document).ready(function(){
-			var imgAddr = window.location.search.substring(5); //url에서 처음부터 '?'까지 삭제		
-			$("#image").attr("src",imgAddr);
+			var imgAddr = window.location.search.substring(5); //url에서 처음부터 '?'까지 삭제 한 후 저장(이미지 파일 이름명)	
+			$("#image").attr("src",imgAddr); //이미지 속성중 src에 이미지 주소 붙여 넣는 기능
 		});
 	</script>
 	</head>
