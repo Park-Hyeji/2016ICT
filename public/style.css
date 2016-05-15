@@ -76,21 +76,15 @@ ul.tabs li.active {
 	font-color: #ffffff;
 }
 .friend_list{
-	margin-bottom:10px;
-	margin-left:10px;
 	height:85px;
-	overflow:hidden;
-	height:auto;
 }
 .friend_chat_list{
 	height:85px;
 	margin-bottom:10px;
 }
 .friend_list_right{
+	height:85px;
 	margin-right:10px;
-	margin-bottom:10px;
-	overflow:hidden;
-	height:auto;
 }
 .friend_pic{
 	width: 80px;
@@ -98,13 +92,6 @@ ul.tabs li.active {
 	border-radius: 50%;
 	float:left;
 	margin-right:50px;
-}
-.friend_chat_pic{
-	width:60px;
-	height:60px;
-	border-radius:50%;
-	margin-right:15px;
-	float:left;
 }
 .friend_font{
 	float:left;
@@ -133,8 +120,7 @@ ul.tabs li.active {
 	font-size:8px;
 }
 .time_right{
-	margin-right:15px;
-	margin-left:15px;
+	margin-right:5px;
 	font-size:8px;
 	margin-top:20px;
 	float:right;
@@ -144,8 +130,6 @@ ul.tabs li.active {
 }
 .arrow_box_right {
 	position: relative;
-	padding: 5px;
-	max-width:400px;
 	background: #ffff00;
 	border: 1px solid #000000;
 }
@@ -170,33 +154,6 @@ ul.tabs li.active {
 	border-left-color: #000000;
 	border-width: 6px;
 	margin-top: -6px;
-}
-.arrow_box_left {
-	position: relative;
-	background: #ffffff;
-	max-width:350px;
-	border: 1px solid #999999;
-	padding: 5px;
-}
-.arrow_box_left:after, .arrow_box_left:before {
-	right: 100%;
-	top: 0.1%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-}
-.arrow_box_left:after {
-	border-color: rgba(255, 255, 255, 0);
-	border-right-color: #ffffff;
-	border-width: 6px;
-}
-.arrow_box_left:before {
-	border-color: rgba(153, 153, 153, 0);
-	border-right-color: #999999;
-	border-width: 7px;
 }
 .arrow_box {
 	position: relative;
@@ -262,11 +219,8 @@ ul.tabs li.active {
 }
 #iconBtn{
 	float:left;
-	margin-left:5px;
-	margin-right:5px;
+	margin-right:15px;
 	margin-top:10px;
-	width:35px;
-	height:35px;
 }
 #iconName{
 	width:60%;
@@ -284,29 +238,21 @@ ul.tabs li.active {
 	overflow:hidden;
 }
 #messages-area{
-	width:100%;
-	height:500px;
+	height: 100%;
 	overflow:auto;
-}
-#send{
-	width:60px;
-	height:65px;
-	margin-left:-5px;
 }
 #chattingArea{
 	width:100%;
 	height:500px;
+	position:relative;
 	margin-top:30px;
 }
 #messageArea{
 	width:100%;
-	height:75px;
+	height:80px;
 	bottom:0;
-	padding-top:10px;
+	position:relative;
 	background-color:#ffff00;
-}
-#new-message{
-	height:60px;
 }
 #iconWindow{
 	position:relative;

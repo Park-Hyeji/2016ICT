@@ -109,7 +109,7 @@
 				if(msg.name == id){
 					if(msg.message){
 						if(msg.img){
-							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
+							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'>" + msg.img + "<br><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");			
 						}else{
 							$('#messages-area').append("<div class='friend_list_right'><p class='time_right'>" + nowAll +"</p><div class='friend_font_right'><div class='arrow_box_right'>"+ msg.message + "</div></div></div><br>");	
 						}
@@ -119,12 +119,12 @@
 				}else{
 					if(msg.message){
 						if(msg.img){
-							$('#messages-area').append("<div class='friend_list'><img class='friend_chat_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box_left'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "<div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");		
 						}else{
-							$('#messages-area').append("<div class='friend_list'><img class='friend_chat_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box_left'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
+							$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div><div class='arrow_box'>"+ msg.message + "</div></div><p class='time'>" + nowAll + "</p></div><br>");
 						}
 					}else{
-						$('#messages-area').append("<div class='friend_list'><img class='friend_chat_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
+						$('#messages-area').append("<div class='friend_list'><img class='friend_pic' src='./images/img1.jpg'><div class='friend_font'><div class='friend_nick'>" + msg.name + "</div>" + msg.img + "</div><p class='time'>" + nowAll + "</p></div><br>");
 					}
 				}
 			});	
@@ -137,7 +137,7 @@
 				<input type="button" id="exitChatting" value="채팅방 나가기">
 			</div>
 			<div id="chattingArea">
-				<div id="messages-area"></div>
+				<ul id="messages-area"></ul>
 			</div>
 			<button id="iconWindowClose">X</button>
 			<div id="iconWindow">
@@ -145,7 +145,7 @@
 			<div id="messageArea">
 				<button id="iconBtn">+</button>
 				<form id="form" onsubmit="return false;">
-					<input id="new-message" type="text" style="width:75%">
+					<input id="new-message" type="text" placeholder="Search" style="width:75%">
 					<input type="button" value="전송" id="send" style="width:16%">
 				</form>
 			</div>
@@ -174,6 +174,4 @@
 			</div>
 		</div>
     </body>
-</html>		
-						
-						
+</html>

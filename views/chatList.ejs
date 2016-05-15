@@ -9,14 +9,12 @@
 	<script>
 		var bool = 0;
 		var now = new Date();
-		var nowAll = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + " "; //현재 시간		
+		var nowAll = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + " ";				
 		$(document).ready(function(){		
 			$(function () {
 				$("#AccountWindow").hide();
 				$("#friendAddWindowBack").hide();
-				$("#friendAddWindow").hide(); 
-				//친구 추가 div, 화면 회색으로 보이게하는 div, 친구 정보 div 안 보이게 함
-				
+				$("#friendAddWindow").hide(); //친구 추가 div 안 보이게 함
 				//친구 추가 창 유동적으로 하는 부분
 				var windowWidth = $(window).width();
 				var windowHeight = $(window).height();
@@ -36,23 +34,17 @@
 					$("#" + activeTab).show()
 				});
 				
-				//친구 이미지 새 창에서 보기
-				$("#AccountWindowImg").click(function(){
-					var newImg = $(this).attr('src');
-					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=700,width=600,left=0,top=0";
-					var url = "imgWindow?img=" + newImg;
-					winObject = window.open(url,"NEWIMG",settings);
-				});
+				//채팅리스트 클릭시 채팅 창 띄우는 부분
 				
-				//채팅리스트 클릭시 채팅 창 띄우는 부분		
-				$(".friend_chat_list").click(function(){
-					var nowId = $(this).attr('id');
-					//socket.emit('joinroom', {room: nowId});
-					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
-					var url = "chatting?id=" + <%= id %> + "&room=" + nowId;
-					winObject = window.open(url,"CHATTING",settings);
-				});		
-			
+					$(".friend_chat_list").click(function(){
+						var nowId = $(this).attr('id');
+						//socket.emit('joinroom', {room: nowId});
+						var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
+						var url = "chatting?id=" + <%= id %> + "&room=" + nowId;
+						winObject = window.open(url,"CHATTING",settings);
+					});		
+				
+		
 				//친구 추가 버튼
 				$("#friendAddFont").click(function(){
 					if(bool == 0){									
@@ -73,8 +65,7 @@
 
 				//친구 추가, 취소 기능
 				$("#add").click(function(){
-					//$("#friendIdAdd").val();
-					//나중에 친구 추가 sql부분 추가
+					$("#friendIdAdd").val();
 					$("#friendAddWindow").hide();
 					$("#friendAddWindowBack").hide();
 					bool = 0;
@@ -85,16 +76,14 @@
 					bool = 0;
 				});
 				
-				//친구 div클릭 시 친구 정보를 담고 있는 div창을 띄움
 				$(".friend_list").click(function(){
 					$("#AccountWindow").show();
-					$("#friendAddWindowBack").show();//뒷부분 회색되게 해줌
+					$("#friendAddWindowBack").show();
 					var imgAddr = $(this).find('img').attr('src');
 					//id값으로 select해서 나온 이미지 이름 넣기
-					$("#AccountWindowImg").attr('src',imgAddr); //이미지 파일명 속성 추가		
+					$("#AccountWindowImg").attr('src',imgAddr);			
 				});
 				
-				//친구 정보를 담고 있는 div에서 닫기 버튼 눌렀을 때 해당 창을 닫고 뒷 배경(회색)없앰
 				$("#btnCancel").click(function(){
 					$("#AccountWindow").hide();
 					$("#friendAddWindowBack").hide();
