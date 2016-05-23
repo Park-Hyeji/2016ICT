@@ -9,10 +9,12 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var chatList = require('./routes/chatList');
 var join = require('./routes/join');
+var joinOk = require('./routes/joinOk');
 var logout = require('./routes/logout');
 var chatting = require('./routes/chatting');
 var imgWindow = require('./routes/imgWindow');
 var session = require('express-session');
+var mysql = require('mysql');
 
 var app = express();
 
@@ -41,6 +43,7 @@ app.use('/users', users);
 app.use('/chatList', chatList);
 app.use('/logout',logout);
 app.use('/join',join);
+app.use('/joinOk',joinOk);
 app.use('/chatting',chatting);
 app.use('/imgWindow',imgWindow);
 // catch 404 and forward to error handler
@@ -74,6 +77,25 @@ app.use(function(err, req, res, next) {
   });
 });
 
+/*
+//mysql 연결
+var connection = mysql.createConnection({
+	user: 'root',
+	password: 'softwareproject',
+	database: 'ict'
+});
+
+connection.connect(function(err){
+	if(err){
+		console.error('mysql connection error');
+		console.error(err);
+		throw err;
+	}else{
+		console.log('db connection success');
+	}
+});
+*/
+
 var server = app.listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + server.address().port);
 });
@@ -98,4 +120,23 @@ io.sockets.on('connection' ,function(socket){
 	});
 });
 
+/*
+//customer database에 데이터 값 넣는 부분
+app.post('/joinOk',function(req,res){
+	var customer = {'id':req.body.id,
+					'name':req.body.name,
+					'pwd':req.body.pwd,
+					'phone':req.body.phone,
+					'email':req.body.email};
+	var query = connection.query('insert into customer set ?',customer,function(err,result){
+		if(err){
+			console.error(err);
+			throw err;
+		}
+		console.log(query);
+		res.send("<script>alert(회원가입이 완료되었습니다.); history.back();</script>");
+	});
+});
+connection.end();
+*/
 module.exports = app;
