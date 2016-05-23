@@ -26,14 +26,14 @@ router.post('/', function(req,res,next){
 			var cnt = rows[0].cnt;
 			if(cnt == 1){
 				req.session.id = id;
-				res.render('chatList',req.body);
+				res.render('chatList',{id:id});
 			}else{
-				//res.send('<script>alert("아이디나 비밀번호가 틀렸습니다.");history.back();</script>');
-				return;
+				res.send('<script>alert("아이디나 비밀번호가 틀렸습니다.");history.back();</script>');
 			}
-		});	
+		});		
+		connection.release();
 	});
-	connection.release();
+
 });
 
 
