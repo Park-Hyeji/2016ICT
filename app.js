@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var chatList = require('./routes/chatList');
 var join = require('./routes/join');
 var joinOk = require('./routes/joinOk');
+var login = require('./routes/login');
 var logout = require('./routes/logout');
 var chatting = require('./routes/chatting');
 var imgWindow = require('./routes/imgWindow');
@@ -41,6 +42,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/users', users);
 app.use('/chatList', chatList);
+app.use('/login', login);
 app.use('/logout',logout);
 app.use('/join',join);
 app.use('/joinOk',joinOk);

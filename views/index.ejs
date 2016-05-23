@@ -16,9 +16,9 @@
 	</script> 
 	</head>
 	<body>
-		<form name="chatListform" action="./chatList" method="post">
-			아이디 : <input type="text" name="id" id="id">
-			비밀번호 : <input type="password" name="pwd" id="pwd">
+		<form name="chatListform" action="./login" method="post">
+			아이디 : <input type="text" name="c_id">
+			비밀번호 : <input type="password" name="c_pwd">
 			<input type="submit" id="login" value="로그인" onclick="doSubmit()" class="btn ban-primaty" style="width:16%">
 		</form>
 		<input type="button" id="join" value="회원가입" onclick="doJoin()" class="btn ban-primaty" style="width:16%">
