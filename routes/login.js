@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var session = require('express-session');
 var pool = mysql.createPool({
 	connectionLimit: 6,
 	host: 'localhost',
@@ -10,7 +11,7 @@ var pool = mysql.createPool({
 });
 
 /* GET home page. */
-router.get('/login', function(req, res) {
+router.get('/', function(req, res) {
   res.render('login');
 });
 
@@ -26,15 +27,13 @@ router.post('/', function(req,res,next){
 			var cnt = rows[0].cnt;
 			if(cnt == 1){
 				req.session.id = id;
-				res.render('chatList',{id:id});
+				res.redirect('/chatList?id='+id);	
 			}else{
 				res.send('<script>alert("아이디나 비밀번호가 틀렸습니다.");history.back();</script>');
 			}
 		});		
 		connection.release();
 	});
-
 });
-
 
 module.exports = router;

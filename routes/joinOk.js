@@ -27,7 +27,7 @@ router.post('/',function(req, res, next){
 			if (err) console.error("err: "+err);
 			console.log("rows : "+JSON.stringify(data2));
 		});
-		var data3 = [req.body.c_id,,req.body.c_name,,];
+		var data3 = [req.body.c_id,'./images/basic.jpg',req.body.c_name,,];
 		connection.query('insert into customer_info values(?,?,?,?)',data3,function (err, rows){
 			if (err) console.error("err: "+err);
 			console.log("rows : "+JSON.stringify(data3));

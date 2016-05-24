@@ -14,6 +14,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var chatting = require('./routes/chatting');
 var imgWindow = require('./routes/imgWindow');
+var addFriend = require('./routes/addFriend');
 var session = require('express-session');
 var mysql = require('mysql');
 
@@ -47,6 +48,7 @@ app.use('/logout',logout);
 app.use('/join',join);
 app.use('/joinOk',joinOk);
 app.use('/chatting',chatting);
+app.use('/addFriend',addFriend);
 app.use('/imgWindow',imgWindow);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
