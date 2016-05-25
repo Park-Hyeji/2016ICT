@@ -7,6 +7,8 @@
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	<script>
+		var splitString = window.location.search.split('='); //url에서 처음부터 '='까지 삭제
+		var id = splitString[1];
 		var bool = 0;
 		var now = new Date();
 		var nowAll = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + " ";				
@@ -124,7 +126,7 @@
 						<form name="addFriend" method="post" action="./addFriend">
 							친구 아이디 : &nbsp;&nbsp;&nbsp;<input type="text" name="friendIdAdd" id="friendIdAdd">
 							<br>
-							<input type="text" name="c_id" value="<%= rows[0].c_id %>" display="none">
+							<input type="text" name="c_id" id="c_id" value="<%= rows[0].c_id %>" display="none">
 							<input type="button" id="add" value="추가">
 							<input type="button" id="cancel" value="취소">
 						</form>
@@ -150,43 +152,33 @@
 								<%= rows[0].c_name %>
 							</div>
 							<script>
-								if(<%= rows[0].c_msg %>){
-								}else{
-							</script>
-									<div class="arrow_box">
-										<%= rows[0].c_msg %>
-									</div>
-							<script>
+								var c_msg = '<%= rows[0].c_msg %>';
+								if(c_msg !== ''){
+									document.write('<div class="arrow_box"><%= rows[0].c_msg %></div>');
 								}
 							</script>
 						</div>	
 					</div>
 					<br><br>
-					<b class="contentTop">전체 친구</b>&nbsp;&nbsp;<%= rows[0].cnt %>
+					<b class="contentTop">전체 친구</b>&nbsp;&nbsp;<%= rows2.length %>
 					<hr class="gray">
-					<div class="friend_list">
-						<img class="friend_pic" src="./images/img1.jpg">
-						<div class="friend_font">
-							<div class="friend_nick">
-								박명수
-							</div>
-							<div class="arrow_box">
-								친구 상태 메시지 표시
-							</div>
-						</div>	
-					</div>
-					<hr>
-					<div class="friend_list">
-						<img class="friend_pic" src="./images/img2.jpg">
-						<div class="friend_font">
-							<div class="friend_nick">
-								하정우
-							</div>
-							<div class="arrow_box">
-								친구 상태 메시지 표시
-							</div>
-						</div>	
-					</div>
+					<script>
+						var c_msg = new Array();
+						var name = new Array();
+						var c_img = new Array();
+						<%
+							for(var i=0; i< rows2.length; i++){
+						%>
+								c_msg[<%=i%>] = '<%= rows2[i].c_msg %>';
+								if(c_msg[<%=i%>] == ''){
+									document.write('<div class="friend_list"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div></div><hr>');
+								}else{
+									document.write('<div class="friend_list"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div></div><hr>');						
+								}
+						<%
+							}
+						%>
+					</script>
 				</div>
 				<div id="tab2" class="tab_content">
 				<!-- for문 돌리면서 div 생성 하는 부분-->

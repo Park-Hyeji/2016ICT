@@ -319,3 +319,6 @@ ul.tabs li.active {
 	position:absolute;
 	z-index:1;
 }
+#c_id{
+	display:none;
+}
