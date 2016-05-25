@@ -29,14 +29,9 @@ router.post('/', function(req,res,next){
 					if(cnt2 == 1){
 						res.send('<script>alert("이미 등록했습니다."); history.back();</script>');
 					}else{
-						var data2 = [req.body.friendIdAdd,req.body.c_id];
 						connection.query('insert into friend values(?,?)',data, function(err,rows3){
 							if(err) console.err('err', err);
 							console.log('rows3',rows3);
-						});
-						connection.query('insert into friend values(?,?)',data2, function(err,rows4){
-							if(err) console.err('err', err);
-							console.log('rows4',rows4);
 						});
 						res.send("<script>alert('친구를 추가했습니다.');history.back();</script>");
 					}
