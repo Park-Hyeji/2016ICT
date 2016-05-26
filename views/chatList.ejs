@@ -37,16 +37,22 @@
 					$("#" + activeTab).show()
 				});
 				
-				//채팅리스트 클릭시 채팅 창 띄우는 부분
+				//1:1채팅하기 클릭해서 채팅하기
+				$(".goChatting").click(function(){
+					var nowId = $("#hideId").text();
+					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
+					var url = "chatting?id=" + id + "&room=" + nowId;
+					winObject = window.open(url,"CHATTING",settings);
+				});
 				
-					$(".friend_chat_list").click(function(){
-						var nowId = $(this).attr('id');
-						//socket.emit('joinroom', {room: nowId});
-						var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
-						var url = "chatting?id=" + id + "&room=" + nowId;
-						winObject = window.open(url,"CHATTING",settings);
-					});		
-				
+				//채팅리스트 클릭시 채팅 창 띄우는 부분			
+				$(".friend_chat_list").click(function(){
+					var nowId = $(this).find($("#hideId")).attr('id');
+					//socket.emit('joinroom', {room: nowId});
+					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
+					var url = "chatting?id=" + id + "&room=" + nowId;
+					winObject = window.open(url,"CHATTING",settings);
+				});					
 		
 				//친구 추가 버튼
 				$("#friendAddFont").click(function(){
@@ -93,13 +99,22 @@
 					$("#AccountWindow").show();
 					$("#friendAddWindowBack").show();
 					var imgAddr = $(this).find('img').attr('src');
+					var friendName = $(this).find($(".friend_nick")).text();
+					var arrowBox = $(this).find((".arrow_box")).text();
+					var awid = $(this).attr('id');
 					//id값으로 select해서 나온 이미지 이름 넣기
-					$("#AccountWindowImg").attr('src',imgAddr);			
+					$("#AccountWindowImg").attr('src',imgAddr);
+					$("#awName").append(friendName);
+					$("#awMsg").append(arrowBox);
+					$("#hideId").append(awid);
 				});
 				
-				$("#btnCancel").click(function(){
+				$(".btnCancel").click(function(){
 					$("#AccountWindow").hide();
 					$("#friendAddWindowBack").hide();
+					$("#awName").empty();
+					$("#awMsg").empty();
+					$("#hideId").empty();
 				});
 			});
 		});
@@ -135,17 +150,18 @@
 						<div id="AccountWindowBack"></div>
 						<div><img id="AccountWindowImg"></div>
 						<div id="AccountWindowBtn">
-							<p id="awbId">a</p>
+							<p id="awName"></p>
 							<br>
-							<p id="awbMsg">a</p>
+							<p id="awMsg"></p>
+							<p id="hideId"></p>
 							<br>
-							<input type="button" id="goChatting" value="1:1채팅하기">
-							<input type="button" id="btnCancel" value="닫기">
+							<input type="button" class="goChatting" value="1:1채팅하기">
+							<input type="button" class="btnCancel" value="닫기">
 						</div>
 					</div>
 					<b class="contentTop">내 프로필</b>
 					<hr class="gray">
-					<div class="friend_list">
+					<div class="friend_list" id="<%= rows[0].c_id %>">
 						<img class="friend_pic" src="<%= rows[0].c_img %>">
 						<div class="friend_font">
 							<div class="friend_nick">
@@ -171,9 +187,9 @@
 						%>
 								c_msg[<%=i%>] = '<%= rows2[i].c_msg %>';
 								if(c_msg[<%=i%>] == ''){
-									document.write('<div class="friend_list"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div></div><hr>');
+									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div></div><hr>');
 								}else{
-									document.write('<div class="friend_list"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div></div><hr>');						
+									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div></div><hr>');						
 								}
 						<%
 							}
