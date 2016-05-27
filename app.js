@@ -17,6 +17,13 @@ var imgWindow = require('./routes/imgWindow');
 var addFriend = require('./routes/addFriend');
 var session = require('express-session');
 var mysql = require('mysql');
+var pool = mysql.createPool({
+	connectionLimit: 6,
+	host: 'localhost',
+	user: 'root',
+	database: 'ict',
+	password: 'softwareproject'
+});
 
 var app = express();
 
@@ -119,6 +126,15 @@ io.sockets.on('connection' ,function(socket){
 		console.log('채팅방을 나갔습니다.', io.sockets.adapter.rooms);
 	});
 	socket.on('new message', function(msg){
+		//DB저장!!!
+		var data = [msg.room, msg.id, msg.name, msg.c_img, msg.message, msg.img, msg.time,1];
+		pool.getConnection(function(err,connection){
+			console.log(data);
+			connection.query('insert into chat_msg values(?,?,?,?,?,?,?,?)',data,function(err,rows){
+				if(err) console.err('err', err);
+				console.log('approws',rows);
+			});
+		});
 		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
 		console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
 	});
