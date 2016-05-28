@@ -83,7 +83,6 @@ ul.tabs li.active {
 	margin-bottom:10px;
 }
 .friend_list_right{
-	height:85px;
 	margin-right:10px;
 }
 .friend_pic{
@@ -100,6 +99,12 @@ ul.tabs li.active {
 .friend_font_right{
 	float:right;
 	margin-top:10px;
+	height:80px;
+}
+.friend_font_left{
+	float:left;
+	margin-top:10px;
+	height:80px;
 }
 .friend_nick{
 	font-weight: bolder;

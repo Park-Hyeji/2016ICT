@@ -127,12 +127,13 @@ io.sockets.on('connection' ,function(socket){
 	});
 	socket.on('new message', function(msg){
 		//DB저장!!!
-		var data = [msg.room, msg.id, msg.name, msg.c_img, msg.message, msg.img, msg.time,1];
+		var data = [msg.roomId, msg.id, msg.name, msg.c_img, msg.message, msg.img, msg.time,1];
 		pool.getConnection(function(err,connection){
-			console.log(data);
-			connection.query('insert into chat_msg values(?,?,?,?,?,?,?,?)',data,function(err,rows){
-				if(err) console.err('err', err);
-				console.log('approws',rows);
+			connection.query('insert into chat_msg(chat_id, c_id, c_name, c_img, chat_msg, chat_img, chat_time, chat_read) values(?,?,?,?,?,?,?,?)',data,function(err,rows){
+				console.log('approws',data);
+				if(err) console.err('err', err);	
+				
+					
 			});
 		});
 		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
