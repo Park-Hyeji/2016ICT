@@ -7,6 +7,7 @@
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	<script>
+		var socket = io();
 		var splitString = window.location.search.split('='); //url에서 처음부터 '='까지 삭제
 		var id = splitString[1];
 		var bool = 0;
@@ -47,7 +48,7 @@
 				
 				//채팅리스트 클릭시 채팅 창 띄우는 부분			
 				$(".friend_chat_list").click(function(){
-					var nowId = $(this).find($("#hideId")).attr('id');
+					var nowId = $(this).attr('id');
 					//socket.emit('joinroom', {room: nowId});
 					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
 					var url = "chatting?id=" + id + "&room=" + nowId;
@@ -115,7 +116,7 @@
 					$("#awName").empty();
 					$("#awMsg").empty();
 					$("#hideId").empty();
-				});
+				});			
 			});
 		});
 	</script> 
@@ -198,38 +199,61 @@
 				</div>
 				<div id="tab2" class="tab_content">
 				<!-- for문 돌리면서 div 생성 하는 부분-->
-					<div class="friend_chat_list" id="friendId1">
-						<img class="friend_pic" src="./images/img1.jpg">
-						<div class="friend_font">
-							<div class="friend_nick">
-								오징
+				<%
+					for(var j=0;j<rows7.length ;j++){
+				%>
+						<div class="friend_chat_list" id='<%= rows5[j].c_id %>'>
+							<img class="friend_pic" src='<%= rows5[j].c_img %>'>
+							<div class="friend_font">
+								<div class="friend_nick">
+									<%= rows5[j].c_name %>
+								</div>
+								<div class="friend_chat">
+								<script>
+									var Img = '<%= rows8[j].chat_img %>';
+									if(Img == "" ){
+										document.write('<%= rows8[j].chat_msg %>');
+									}
+									else{
+										document.write('<img style="height:60px" src="<%= rows8[j].chat_img %>">');
+										document.write('<%= rows8[j].chat_msg %>');
+									}
+								</script>
+								</div>
 							</div>
-							<div class="friend_chat">
-								이렇게 표시가 됩니다.
+							<div class="friend_date">
+								<%= rows8[j].chat_time %>
 							</div>
 						</div>
-						<div class="friend_date">
-							<script> document.write(nowAll); </script>
-						</div>
-					</div>
-					<hr>
-					<div class="friend_chat_list" id="friendId2">
-						<img class="friend_pic" src="./images/img1.jpg">
-						<div class="friend_font">
-							<div class="friend_nick">
-								오징2
-							</div>
-							<div class="friend_chat">
-								이렇게 표시가 됩니다2.
-							</div>
-						</div>
-						<div class="friend_date">
-							<script> document.write(nowAll); </script>
-						</div>
-					</div>
+						<hr>
+				<%
+					}
+				%>
 				</div>
 				<div id="tab3" class="tab_content">
-					설정이당
+					<div style="height:85px; margin-bottom:10px;">
+						<img class="friend_pic" src="<%= rows[0].c_img %>">
+						<div class="friend_font">
+							<div class="friend_nick">
+								아이디 : <%= rows[0].c_id %>
+								<br>
+								이름 : <%= rows[0].c_name %>
+							</div>
+							<script>
+								var c_msg = '<%= rows[0].c_msg %>';
+								if(c_msg !== ''){
+									document.write('<div class="arrow_box"><%= rows[0].c_msg %></div>');
+								}
+							</script>
+						</div>	
+					</div>
+					<hr>
+					<div id="profile">프로필 관리</div>
+					<hr>
+					<div id="chattingRoom">채팅방 관리</div>
+					<hr>
+					<div id="manageFriend">친구 관리</div>
+					<hr>
 				</div>
 			</div>
 		</div>

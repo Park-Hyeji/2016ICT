@@ -132,11 +132,10 @@ io.sockets.on('connection' ,function(socket){
 			connection.query('insert into chat_msg(chat_id, c_id, c_name, c_img, chat_msg, chat_img, chat_time, chat_read) values(?,?,?,?,?,?,?,?)',data,function(err,rows){
 				console.log('approws',data);
 				if(err) console.err('err', err);	
-				
-					
 			});
 		});
 		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
+		io.sockets.in(room_id).emit('chatList message', msg);//chatList로 전송
 		console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
 	});
 });

@@ -183,22 +183,22 @@
 							if('<%= rows2[j].c_id%>' == id){
 								if('<%= rows2[j].chat_msg %>'){
 									if('<%= rows2[j].chat_img %>'){
-										$('#messages-area').append("<div style='min-height:180px' class='friend_list_right'><p class='time_right'><%= rows2[j].chat_time%></p><div class='friend_font_right'><img src='<%= rows2[j].chat_img %>'><br><div class='arrow_box_right'><%= rows2[j].chat_msg %></div></div></div><br>");			
+										$('#messages-area').append("<div style='min-height:180px' class='friend_list_right'><%= rows2[j].chat_read %><p class='time_right'><%= rows2[j].chat_time%></p><div class='friend_font_right'><img src='<%= rows2[j].chat_img %>'><br><div class='arrow_box_right'><%= rows2[j].chat_msg %></div></div></div><br>");			
 									}else{
-										$('#messages-area').append("<div style='min-height:80px' class='friend_list_right'><p class='time_right'><%= rows2[j].chat_time %></p><div class='friend_font_right'><div class='arrow_box_right'><%= rows2[j].chat_msg %></div></div></div><br>");	
+										$('#messages-area').append("<div style='min-height:80px' class='friend_list_right'><%= rows2[j].chat_read %><p class='time_right'><%= rows2[j].chat_time %></p><div class='friend_font_right'><div class='arrow_box_right'><%= rows2[j].chat_msg %></div></div></div><br>");	
 									}
 								}else{
-									$('#messages-area').append("<div style='min-height:180px' class='friend_list_right'><p class='time_right'><%= rows2[j].chat_time %></p><div class='friend_font_right'><img src='<%= rows2[j].chat_img %>'></div></div><br>");
+									$('#messages-area').append("<div style='min-height:180px' class='friend_list_right'><%= rows2[j].chat_read %><p class='time_right'><%= rows2[j].chat_time %></p><div class='friend_font_right'><img src='<%= rows2[j].chat_img %>'></div></div><br>");
 								}
 							}else{
 								if('<%= rows2[j].chat_msg %>'){
 									if('<%= rows2[j].chat_img %>'){
-										$('#messages-area').append("<div style='min-height:180px' class='friend_list_left'><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><img src='<%= rows2[j].chat_img %>'><div class='arrow_box'><%= rows2[j].chat_msg %></div></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");		
+										$('#messages-area').append("<div style='min-height:180px' class='friend_list_left'><%= rows2[j].chat_read %><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><img src='<%= rows2[j].chat_img %>'><div class='arrow_box'><%= rows2[j].chat_msg %></div></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");		
 									}else{
-										$('#messages-area').append("<div style='min-height:80px' class='friend_list_left'><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><div class='arrow_box'><%= rows2[j].chat_msg %></div></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");
+										$('#messages-area').append("<div style='min-height:80px' class='friend_list_left'><%= rows2[j].chat_read %><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><div class='arrow_box'><%= rows2[j].chat_msg %></div></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");
 									}
 								}else{
-									$('#messages-area').append("<div style='min-height:180px' class='friend_list_left'><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><img src='<%= rows2[j].chat_img %>'></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");
+									$('#messages-area').append("<div style='min-height:180px' class='friend_list_left'><%= rows2[j].chat_read %><img class='friend_pic' src='<%= rows2[j].c_img %>'><div class='friend_font_left'><div class='friend_nick'><%= rows2[j].c_name %></div><img src='<%= rows2[j].chat_img %>'></div><p class='time'><%= rows2[j].chat_time %></p></div><br>");
 								}
 							}
 						<%}
