@@ -69,7 +69,6 @@ router.get('/',function(req, res){
 									}
 								}
 								sql5 += ')';
-								console.log("!!!!!!!sql5",sql5);
 								connection.query(sql5,function(err,rowsx){
 									if(err) console.err('err',err);
 									console.log("rowsx",rowsx);

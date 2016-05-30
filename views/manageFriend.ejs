@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ManageFriend 페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+    <script src="/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" href="stylesheets/style.css">
+    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+	<script>
+	</script>
+	</head>
+	<body style="padding:10px">
+		<b class="contentTop">차단한 친구 목록</b>&nbsp;&nbsp;<%= rows2.length %>
+		<hr class="gray">
+		<script>
+			var c_msg = new Array();
+			var name = new Array();
+			var c_img = new Array();
+			<%
+				for(var i=0; i< rows2.length; i++){
+			%>
+					c_msg[<%=i%>] = '<%= rows2[i].c_msg %>';
+					if(c_msg[<%=i%>] == ''){
+						document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div><div style="float:right; margin-top:10px; width:100px;" class = "arrow_box" id="<%= rows2[i].c_id %>">차단 해제</div></div><hr>');
+					}else{
+						document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div><div style="float:right; margin-top:10px; width:100px;" class = "arrow_box" id="<%= rows2[i].c_id %>">차단 해제</div></div><hr>');						
+					}
+			<%
+				}
+			%>
+		</script>
+	</body>
+</html>

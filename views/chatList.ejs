@@ -37,7 +37,7 @@
 					var activeTab = $(this).attr("rel");
 					$("#" + activeTab).show()
 				});
-				
+			
 				//1:1채팅하기 클릭해서 채팅하기
 				$(".goChatting").click(function(){
 					var nowId = $("#hideId").text();
@@ -53,7 +53,25 @@
 					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=1200,left=0,top=0";
 					var url = "chatting?id=" + id + "&room=" + nowId;
 					winObject = window.open(url,"CHATTING",settings);
-				});					
+				});		
+
+				$("#manageProfile").click(function(){
+					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=800,left=0,top=0";
+					var url = "manageProfile?id=" + id;
+					winObject = window.open(url,"manageProfile",settings);
+				});
+				
+				$("#manageChatting").click(function(){
+					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=1000,width=800,left=0,top=0";
+					var url = "manageChatting?id=" + id;
+					winObject = window.open(url,"manageChatting",settings);
+				});
+				
+				$("#manageFriend").click(function(){
+					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=600,width=800,left=0,top=0";
+					var url = "manageFriend?id=" + id;
+					winObject = window.open(url,"manageFriend",settings);
+				});
 		
 				//친구 추가 버튼
 				$("#friendAddFont").click(function(){
@@ -108,6 +126,12 @@
 					$("#awName").append(friendName);
 					$("#awMsg").append(arrowBox);
 					$("#hideId").append(awid);
+					//차단하는 부분
+					$(".btnBlock").click(function(){
+						var blockedId = awid;
+						var url = "http://ec2-52-39-64-143.us-west-2.compute.amazonaws.com:9000/block?id="+id+"&block="+blockedId;
+						$(location).attr('href',url);
+					});
 				});
 				
 				$(".btnCancel").click(function(){
@@ -158,6 +182,7 @@
 							<br>
 							<input type="button" class="goChatting" value="1:1채팅하기">
 							<input type="button" class="btnCancel" value="닫기">
+							<input type="button" class="btnBlock" value="차단하기">
 						</div>
 					</div>
 					<b class="contentTop">내 프로필</b>
@@ -199,11 +224,6 @@
 				</div>
 				<div id="tab2" class="tab_content">
 				<!-- for문 돌리면서 div 생성 하는 부분-->
-				<script>
-					socket.on('chatList message',function(msg){
-						alert("!!!!!!!!");
-					});
-				</script>
 				<%
 					for(var j=0;j<rows7.length ;j++){
 				%>
@@ -253,9 +273,9 @@
 						</div>	
 					</div>
 					<hr>
-					<div id="profile">프로필 관리</div>
+					<div id="manageProfile">프로필 관리</div>
 					<hr>
-					<div id="chattingRoom">채팅방 관리</div>
+					<div id="manageChatting">채팅방 관리</div>
 					<hr>
 					<div id="manageFriend">친구 관리</div>
 					<hr>

@@ -84,6 +84,8 @@
 			
 			//서버로 데이터 전송 부분
 			$("#send").click(function(){
+				var sendMsg = $("#new-message").val();
+				var sendTime = nowAll;
 				$("#iconWindow").empty();
 				$("#iconWindow").hide();
 				$("#iconWindowClose").hide();

@@ -15,6 +15,10 @@ var logout = require('./routes/logout');
 var chatting = require('./routes/chatting');
 var imgWindow = require('./routes/imgWindow');
 var addFriend = require('./routes/addFriend');
+var manageProfile = require('./routes/manageProfile');
+var manageChatting = require('./routes/manageChatting');
+var manageFriend = require('./routes/manageFriend');
+var block = require('./routes/block');
 var session = require('express-session');
 var mysql = require('mysql');
 var pool = mysql.createPool({
@@ -56,6 +60,10 @@ app.use('/join',join);
 app.use('/joinOk',joinOk);
 app.use('/chatting',chatting);
 app.use('/addFriend',addFriend);
+app.use('/manageProfile',manageProfile);
+app.use('/manageChatting',manageChatting);
+app.use('/manageFriend',manageFriend);
+app.use('/block',block);
 app.use('/imgWindow',imgWindow);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -88,25 +96,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-/*
-//mysql 연결
-var connection = mysql.createConnection({
-	user: 'root',
-	password: 'softwareproject',
-	database: 'ict'
-});
-
-connection.connect(function(err){
-	if(err){
-		console.error('mysql connection error');
-		console.error(err);
-		throw err;
-	}else{
-		console.log('db connection success');
-	}
-});
-*/
-
 var server = app.listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + server.address().port);
 });
@@ -132,30 +121,13 @@ io.sockets.on('connection' ,function(socket){
 			connection.query('insert into chat_msg(chat_id, c_id, c_name, c_img, chat_msg, chat_img, chat_time, chat_read) values(?,?,?,?,?,?,?,?)',data,function(err,rows){
 				console.log('approws',data);
 				if(err) console.err('err', err);
+				io.sockets.in(room_id).emit('chat message', msg);
 			});
+			connection.release();
 		});
-		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
+		//io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
 		console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
 	});
 });
 
-/*
-//customer database에 데이터 값 넣는 부분
-app.post('/joinOk',function(req,res){
-	var customer = {'id':req.body.id,
-					'name':req.body.name,
-					'pwd':req.body.pwd,
-					'phone':req.body.phone,
-					'email':req.body.email};
-	var query = connection.query('insert into customer set ?',customer,function(err,result){
-		if(err){
-			console.error(err);
-			throw err;
-		}
-		console.log(query);
-		res.send("<script>alert(회원가입이 완료되었습니다.); history.back();</script>");
-	});
-});
-connection.end();
-*/
 module.exports = app;
