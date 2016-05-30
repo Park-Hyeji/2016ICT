@@ -79,7 +79,6 @@ router.get('/', function(req, res){
 								var sql2 = 'select * from chat_msg where chat_id = "' + realChatId + '"';
 								connection.query(sql2,function(err,rows2){
 									if(err) console.err('err',err);
-									console.log('rows2',rows2);
 									res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});
 								});
 							}else{

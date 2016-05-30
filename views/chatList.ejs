@@ -116,7 +116,7 @@
 					$("#awName").empty();
 					$("#awMsg").empty();
 					$("#hideId").empty();
-				});			
+				});					
 			});
 		});
 	</script> 
@@ -199,14 +199,19 @@
 				</div>
 				<div id="tab2" class="tab_content">
 				<!-- for문 돌리면서 div 생성 하는 부분-->
+				<script>
+					socket.on('chatList message',function(msg){
+						alert("!!!!!!!!");
+					});
+				</script>
 				<%
 					for(var j=0;j<rows7.length ;j++){
 				%>
-						<div class="friend_chat_list" id='<%= rows5[j].c_id %>'>
-							<img class="friend_pic" src='<%= rows5[j].c_img %>'>
+						<div class="friend_chat_list" id='<%= rowsx[j].c_id %>'>
+							<img class="friend_pic" src='<%= rowsxx[j].c_img %>'>
 							<div class="friend_font">
 								<div class="friend_nick">
-									<%= rows5[j].c_name %>
+									<%= rowsxx[j].c_name %>
 								</div>
 								<div class="friend_chat">
 								<script>

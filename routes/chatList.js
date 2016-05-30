@@ -42,7 +42,6 @@ router.get('/',function(req, res){
 					//로그인한 회원의 친구 상세 정보를 뽑음
 					connection.query(sql, function(err,rows2){
 						if(err) console.err('err', err);
-						console.log('rows2',rows2);
 						//로그인한 회원이 가진 채팅방 뽑음
 						connection.query('select * from chat_room where c_id = ?',id,function(err,rows7){
 							if(err) console.err('err', err);
@@ -93,29 +92,61 @@ router.get('/',function(req, res){
 									console.log("sql4",sql4);
 									connection.query(sql4, function(err,rows6){
 										if(err) console.err('err', err);
-										console.log('rows6',rows6);
-										connection.query('select max(msg_id) max from chat_msg group by chat_id',function(err,rows0){
-											console.log('rows0',rows0);
+										console.log('rows6',rows6);	
+										connection.query('select * from chat_msg where chat_id in(select chat_id from chat_room where c_id = "'+id+'") and msg_id in(select max(msg_id) max from chat_msg group by chat_id) order by msg_id desc', function(err,rows8){
+											console.log('이거 확인rows8',rows8);
 											if(err) console.err('err', err);
-											
-											var sql5 = 'select * from chat_msg where msg_id IN ('
+											var sql5 = 'select * from chat_room where chat_id in('
 											var tempArray4 = new Array();
-											for(var e=0; e<rows0.length; e++){
-												tempArray4[e] = connection.escape(rows0[e].max);
-												if(e == rows0.length-1){
-													sql5 += tempArray4[e];
+											for(var u=0; u<rows8.length; u++){
+												tempArray4[u] = connection.escape(rows8[u].chat_id);
+												if(u == rows8.length-1){
+													sql5 += tempArray4[u];
 												}else{
-													sql5 += tempArray4[e] + ",";
+													sql5 += tempArray4[u] + ",";
+												}
+											}
+											sql5 += ') and c_id not in("'+id+'") order by field(chat_id,'
+											for(var u=0; u<rows8.length; u++){
+												tempArray4[u] = connection.escape(rows8[u].chat_id);
+												if(u == rows8.length-1){
+													sql5 += tempArray4[u];
+												}else{
+													sql5 += tempArray4[u] + ",";
 												}
 											}
 											sql5 += ')';
-											console.log("sql5",sql5);
-											connection.query(sql5, function(err,rows8){
-												console.log('rows8',rows8);
-												if(err) console.err('err', err);
-												res.render('chatList',{rows:rows, rows2:rows2, rows5:rows5, rows6:rows6, rows7:rows7, rows8:rows8});
-											});	
-										});
+											console.log("!!!!!!!sql5",sql5);
+											connection.query(sql5,function(err,rowsx){
+												if(err) console.err('err',err);
+												console.log("rowsx",rowsx);
+												var sql6 = 'select * from customer_info where c_id in('
+												var tempArray5 = new Array();
+												for(var y=0; y<rowsx.length; y++){
+													tempArray5[y] = connection.escape(rowsx[y].c_id);
+													if(y == rowsx.length-1){
+														sql6 += tempArray5[y];
+													}else{
+														sql6 += tempArray5[y] + ",";
+													}
+												}
+												sql6 += ') order by field(c_id,'
+												for(var y=0; y<rowsx.length; y++){
+													tempArray5[y] = connection.escape(rowsx[y].c_id);
+													if(y == rowsx.length-1){
+														sql6 += tempArray5[y];
+													}else{
+														sql6 += tempArray5[y] + ",";
+													}
+												}
+												sql6 += ')';
+												connection.query(sql6,function(err,rowsxx){
+													if(err) console.log('err',err);
+													console.log('rowsxx',rowsxx);
+													res.render('chatList',{rows:rows, rows2:rows2, rows7:rows7, rows8:rows8, rowsx:rowsx, rowsxx:rowsxx});
+												});
+											});
+										});	
 									});
 								});
 							});
