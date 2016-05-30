@@ -135,7 +135,6 @@ io.sockets.on('connection' ,function(socket){
 			});
 		});
 		io.sockets.in(room_id).emit('chat message', msg);//전체에게 메시지 전송
-		socket.emit('chatList message',msg);
 		console.log('new message: ' + msg.name + " : " +  msg.img + " , " + msg.message);
 	});
 });
