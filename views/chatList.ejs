@@ -235,15 +235,18 @@
 								</div>
 								<div class="friend_chat">
 								<script>
-									var Img = '<%= rows8[j].chat_img %>';
-									if(Img == "" ){
-										document.write('<%= rows8[j].chat_msg %>');
+									var eightLeng = <%= rows8.length %>;
+									if(eightLeng !== 0){
+										var Img = '<%= rows8[j].chat_img %>';
+										if(Img == "" ){
+											document.write('<%= rows8[j].chat_msg %>');
+										}
+										else{
+											document.write('<img style="height:60px" src="<%= rows8[j].chat_img %>">');
+											document.write('<%= rows8[j].chat_msg %>');
+										}
 									}
-									else{
-										document.write('<img style="height:60px" src="<%= rows8[j].chat_img %>">');
-										document.write('<%= rows8[j].chat_msg %>');
-									}
-								</script>
+									</script>
 								</div>
 							</div>
 							<div class="friend_date">

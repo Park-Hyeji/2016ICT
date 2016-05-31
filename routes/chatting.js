@@ -30,32 +30,15 @@ router.get('/', function(req, res){
 					if(err) console.err('err', err);
 					console.log('rows',rows);
 					if(rows.length == 0){
-						//방없음
-						//var data = [roomName,roomName,id];
-						//var data2 = [roomName,roomName,room];
-						
 						var data = [id,room];
 						var newSql = 'insert into chat_room (chat_id, chat_name, c_id) values("'+roomName+'","'+roomName+'","'+id+'"),("'+roomName+'","'+roomName+'","'+room+'")';
 						connection.query(newSql,function(err,newRows){
 							console.log("newSql",newSql);
 							if(err) console.err('err',err);	
 							var rows2 = [];
-							res.render('chatting',{row:row, c_row:c_row, rows2:rows2});								
+							var rowss = [];
+							res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});							
 						});										
-
-						
-						/*
-						connection.query('insert into chat_room values(?,?,?)',data2,function(err,rows3){
-							console.log('rows3',rows3);
-							if(err) console.err('err',err);						
-						});
-						connection.query('insert into chat_room values(?,?,?)',data,function(err,rows2){
-							if(err) console.err('err',err);
-							console.log('rows2',rows2);		
-							var rows2 = [];
-							res.render('chatting',{row:row, c_row:c_row, rows2:rows2});
-						});	
-						*/
 					}else{
 						//c_id 방 있음
 						var sql3 = 'select * from chat_room where c_id = "' + room + '" and chat_id IN ('
