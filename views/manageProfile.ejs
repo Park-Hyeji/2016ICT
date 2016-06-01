@@ -7,15 +7,30 @@
 	<link rel="stylesheet" href="stylesheets/style.css">
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	<script>
+		$(document).ready(function(){		
+			$(function () {
+				$("#changeCancle").click(function(){
+					window.open('about:blank','_self').close();
+				});
+			});
+		});
 	</script>
 	</head>
 	<body>
-		<div>
-			사진 : <img style="width:100px; height:100px;" src="<%= rows[0].c_img %>">
+		<form style="margin-top:20px; margin-left:100px;" name="profile" action="changeProfile" method="post" >
+			<img style="width:100px; height:100px;" name="image" src="<%= rows[0].c_img %>">
+			<br>
+			<br>
+			<input type="file" name="imgChoice" multiple="multiple">
+			<br>
+			<input type="text" name="nameChange" value="<%= rows[0].c_name %>">
 			<br><br>
-			이름 : <input type="text" value="<%= rows[0].c_name %>">
+			<input style="height: 80px;" type="text" name="msgChange" value="<%= rows[0].c_msg %>"></input>
 			<br><br>
-			상태 메세지 : <textArea id="newMsg"><%= rows[0].c_msg %></textArea>
-		</div>
+			<input type="submit" name="change" value="변경">
+			<input type="button" id="changeCancle" value="취소"> 
+			<input style="display:none" type="text" name="id" value="<%= rows[0].c_id %>">
+			<input style="display:none" type="text" name="img" value="<%= rows[0].c_img %>">
+		</form>
 	</body>
 </html>

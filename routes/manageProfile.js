@@ -17,8 +17,7 @@ router.get('/', function(req,res,next){
 	pool.getConnection(function(err,connection){
 		console.log("manageProfile DB CONNECT");
 		connection.query('select * from customer_info where c_id=?',id, function(err,rows){
-			console.log('rows',id);if(err) console.err('err', err);
-			
+			console.log('rows',id);if(err) console.err('err', err);		
 			res.render('manageProfile',{rows:rows});
 		});	
 		connection.release();

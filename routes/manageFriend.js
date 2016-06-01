@@ -20,23 +20,28 @@ router.get('/', function(req,res,next){
 		connection.query(sql,function(err,rows){
 			if(err) console.err('err', err);
 			console.log('rows',rows);
-			var sql2 = 'select * from customer_info where c_id IN ( ';
-			var tagArray = new Array();
-			for(var i=0; i<rows.length; i++){
-				tagArray[i] = connection.escape(rows[i].blocked_id);
-				if(i == rows.length-1){
-					sql2 += tagArray[i]; 
-				}else{
-					sql2 += tagArray[i] + ","; 
+			if(rows.length !== 0){
+				var sql2 = 'select * from customer_info where c_id IN ( ';
+				var tagArray = new Array();
+				for(var i=0; i<rows.length; i++){
+					tagArray[i] = connection.escape(rows[i].blocked_id);
+					if(i == rows.length-1){
+						sql2 += tagArray[i]; 
+					}else{
+						sql2 += tagArray[i] + ","; 
+					}
 				}
-			}
-			sql2 += ')';
-			//로그인한 회원의 친구 상세 정보를 뽑음
-			connection.query(sql2,function(err,rows2){
-				if(err) console.err('err',err);
-				console.log('rows2',rows2);
+				sql2 += ')';
+				//로그인한 회원의 친구 상세 정보를 뽑음
+				connection.query(sql2,function(err,rows2){
+					if(err) console.err('err',err);
+					console.log('rows2',rows2);
+					res.render('manageFriend',{rows2:rows2})
+				});
+			}else{
+				var rows2 = [];
 				res.render('manageFriend',{rows2:rows2})
-			});
+			}	
 		});	
 		connection.release();
 	});
