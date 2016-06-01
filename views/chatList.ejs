@@ -188,7 +188,7 @@
 					<b class="contentTop">내 프로필</b>
 					<hr class="gray">
 					<div class="friend_list" id="<%= rows[0].c_id %>">
-						<img class="friend_pic" src="<%= rows[0].c_img %>">
+						<img class="friend_pic" src="<%= rows[0].c_img_file %>">
 						<div class="friend_font">
 							<div class="friend_nick">
 								<%= rows[0].c_name %>
@@ -213,9 +213,9 @@
 						%>
 								c_msg[<%=i%>] = '<%= rows2[i].c_msg %>';
 								if(c_msg[<%=i%>] == ''){
-									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div></div><hr>');
+									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img_file %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div></div></div><hr>');
 								}else{
-									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div></div><hr>');						
+									document.write('<div class="friend_list" id="<%= rows2[i].c_id %>"><img class="friend_pic" src="<%= rows2[i].c_img_file %>"><div class="friend_font"><div class="friend_nick"><%= rows2[i].c_name %></div><div class="arrow_box"><%= rows2[i].c_msg %></div></div></div><hr>');						
 								}
 						<%
 							}
@@ -228,7 +228,7 @@
 					for(var j=0;j<rows7.length ;j++){
 				%>
 						<div class="friend_chat_list" id='<%= rowsx[j].c_id %>'>
-							<img class="friend_pic" src='<%= rowsxx[j].c_img %>'>
+							<img class="friend_pic" src='<%= rowsxx[j].c_img_file %>'>
 							<div class="friend_font">
 								<div class="friend_nick">
 									<%= rowsxx[j].c_name %>
@@ -237,12 +237,12 @@
 								<script>
 									var eightLeng = <%= rows8.length %>;
 									if(eightLeng !== 0){
-										var Img = '<%= rows8[j].chat_img %>';
+										var Img = '<%= rows8[j].c_img_file %>';
 										if(Img == "" ){
 											document.write('<%= rows8[j].chat_msg %>');
 										}
 										else{
-											document.write('<img style="height:60px" src="<%= rows8[j].chat_img %>">');
+											document.write('<img style="height:60px" src="<%= rows8[j].c_img_file %>">');
 											document.write('<%= rows8[j].chat_msg %>');
 										}
 									}
@@ -260,7 +260,7 @@
 				</div>
 				<div id="tab3" class="tab_content">
 					<div style="height:85px; margin-bottom:10px;">
-						<img class="friend_pic" src="<%= rows[0].c_img %>">
+						<img class="friend_pic" src="<%= rows[0].c_img_file %>">
 						<div class="friend_font">
 							<div class="friend_nick">
 								아이디 : <%= rows[0].c_id %>

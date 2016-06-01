@@ -18,6 +18,7 @@ var addFriend = require('./routes/addFriend');
 var manageProfile = require('./routes/manageProfile');
 var manageChatting = require('./routes/manageChatting');
 var manageFriend = require('./routes/manageFriend');
+var changeProfile = require('./routes/changeProfile');
 var block = require('./routes/block');
 var session = require('express-session');
 var mysql = require('mysql');
@@ -63,6 +64,7 @@ app.use('/addFriend',addFriend);
 app.use('/manageProfile',manageProfile);
 app.use('/manageChatting',manageChatting);
 app.use('/manageFriend',manageFriend);
+app.use('/changeProfile',changeProfile);
 app.use('/block',block);
 app.use('/imgWindow',imgWindow);
 // catch 404 and forward to error handler

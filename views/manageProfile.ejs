@@ -17,11 +17,11 @@
 	</script>
 	</head>
 	<body>
-		<form style="margin-top:20px; margin-left:100px;" name="profile" action="changeProfile" method="post" >
-			<img style="width:100px; height:100px;" name="image" src="<%= rows[0].c_img %>">
+		<form style="margin-top:20px; margin-left:100px;" name="profile" action="changeProfile" method="post" enctype="multipart/form-data">
+			<img style="width:100px; height:100px;" name="image" src="<%= rows[0].c_img_file %>">
 			<br>
 			<br>
-			<input type="file" name="imgChoice" multiple="multiple">
+			<input type="file" name="imgChoice">
 			<br>
 			<input type="text" name="nameChange" value="<%= rows[0].c_name %>">
 			<br><br>
