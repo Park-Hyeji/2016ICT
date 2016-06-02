@@ -54,10 +54,14 @@ router.get('/', function(req, res){
 						sql3 += ')';
 						console.log(sql3);
 						connection.query(sql3, function(err,rowss){
-							if(err) console.err('err', err);
-							console.log('rowss',rowss);		
-							realChatId = rowss[0].chat_id;
-									
+							console.log('rowss2',rowss);
+							if(err) console.err('err', err);	
+							if(rowss.length == 0){
+								realChatId = 0;
+							}else{
+								realChatId = rowss[0].chat_id;
+							}
+								
 							if(realChatId !== 0){
 								var sql2 = 'select * from chat_msg where chat_id = "' + realChatId + '"';
 								connection.query(sql2,function(err,rows2){
@@ -65,15 +69,29 @@ router.get('/', function(req, res){
 									res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});
 								});
 							}else{
-								var data = [id,room];
-								var newSql = 'insert into chat_room (chat_id, chat_name, c_id) values("'+roomName+'","'+roomName+'","'+id+'"),("'+roomName+'","'+roomName+'","'+room+'")';
-								connection.query(newSql,function(err,newRows){
-									console.log("newSql",newSql);
-									if(err) console.err('err',err);	
-									var rows2 = [];
-									var rowss = [];
-									res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});								
-								});	
+								connection.query('select * from block where c_id=? and blocked_id=?',[room,id],function(err,tempBlock){
+									console.log('tempBlock',tempBlock);
+									if(err) console.log('err',err);
+									var blockLeng = tempBlock.length;
+									if(blockLeng == 0){
+										var data = [id,room];
+										var newSql = 'insert into chat_room (chat_id, chat_name, c_id) values("'+roomName+'","'+roomName+'","'+id+'"),("'+roomName+'","'+roomName+'","'+room+'")';
+										connection.query(newSql,function(err,newRows){
+											console.log("newSql",newSql);
+											if(err) console.err('err',err);	
+											var rows2 = [];
+											var rowss = [];
+											res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});								
+										});	
+									}else{
+										var sql2 = 'select * from chat_msg where chat_id = "' + roomName + '"';
+										connection.query(sql2,function(err,rows2){
+											if(err) console.err('err',err);
+											var rowss = [{chat_id:roomName}];
+											res.render('chatting',{rowss:rowss, row:row, c_row:c_row, rows2:rows2});	
+										});							
+									}
+								});
 							}	
 						});							
 					}

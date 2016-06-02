@@ -49,9 +49,11 @@ router.get('/',function(req, res){
 											sql5 += tempArray4[u] + ",";
 										}
 									}
-									sql5 += ') and c_id not in("'+id+'") order by field(chat_id,'
+									sql5 += ') and c_id not in("'+id+'") order by field(chat_id'
+									console.log("sql53",sql5);
 									for(var u=0; u<rows8.length; u++){
 										tempArray4[u] = connection.escape(rows8[u].chat_id);
+										sql5 += ',';
 										if(u == rows8.length-1){
 											sql5 += tempArray4[u];
 										}else{
@@ -59,6 +61,7 @@ router.get('/',function(req, res){
 										}
 									}
 									sql5 += ')';
+									console.log("sql51",sql5);
 									connection.query(sql5,function(err,rowsx){
 										console.log("rowsx",rowsx);
 										if(err) console.err('err',err);
@@ -73,8 +76,10 @@ router.get('/',function(req, res){
 												sql6 += tempArray5[y] + ",";
 											}
 										}
-										sql6 += ') order by field(c_id,'
+										sql6 += ') order by field(c_id'
+										console.log("sql61",sql6);
 										for(var y=0; y<rowsx.length; y++){
+											sql6 += ',';
 											tempArray5[y] = connection.escape(rowsx[y].c_id);
 											if(y == rowsx.length-1){
 												sql6 += tempArray5[y];
@@ -167,8 +172,9 @@ router.get('/',function(req, res){
 												sql5 += tempArray4[u] + ",";
 											}
 										}
-										sql5 += ') and c_id not in("'+id+'") order by field(chat_id,'
+										sql5 += ') and c_id not in("'+id+'") order by field(chat_id'
 										for(var u=0; u<rows8.length; u++){
+											sql5 += ',';
 											tempArray4[u] = connection.escape(rows8[u].chat_id);
 											if(u == rows8.length-1){
 												sql5 += tempArray4[u];
@@ -177,35 +183,60 @@ router.get('/',function(req, res){
 											}
 										}
 										sql5 += ')';
+										console.log("sql52",sql5);
 										connection.query(sql5,function(err,rowsx){
 											console.log("rowsx",rowsx);
 											if(err) console.err('err',err);
 											
 											var sql6 = 'select * from customer_info where c_id in('
 											var tempArray5 = new Array();
-											for(var y=0; y<rowsx.length; y++){
-												tempArray5[y] = connection.escape(rowsx[y].c_id);
-												if(y == rowsx.length-1){
-													sql6 += tempArray5[y];
-												}else{
-													sql6 += tempArray5[y] + ",";
+											if(rowsx.length !== 0){
+												for(var y=0; y<rowsx.length; y++){
+													tempArray5[y] = connection.escape(rowsx[y].c_id);
+													if(y == rowsx.length-1){
+														sql6 += tempArray5[y];
+													}else{
+														sql6 += tempArray5[y] + ",";
+													}
 												}
-											}
-											sql6 += ') order by field(c_id,'
-											for(var y=0; y<rowsx.length; y++){
-												tempArray5[y] = connection.escape(rowsx[y].c_id);
-												if(y == rowsx.length-1){
-													sql6 += tempArray5[y];
-												}else{
-													sql6 += tempArray5[y] + ",";
+												sql6 += ') order by field(c_id'
+												console.log("sql62",sql6);
+												for(var y=0; y<rowsx.length; y++){
+													sql6 += ',';
+													tempArray5[y] = connection.escape(rowsx[y].c_id);
+													if(y == rowsx.length-1){
+														sql6 += tempArray5[y];
+													}else{
+														sql6 += tempArray5[y] + ",";
+													}
 												}
+												sql6 += ')';
+												connection.query(sql6,function(err,rowsxx){
+													if(err) console.log('err',err);
+													console.log('rowsxx',rowsxx);
+													res.render('chatList',{rows:rows, rows2:rows2, rows7:rows7, rows8:rows8, rowsx:rowsx, rowsxx:rowsxx});
+												});
+											}else{
+												var tempArray5 = new Array();
+												for(var y=0; y<rows8.length; y++){
+													tempArray5[y] = connection.escape(rows8[y].chat_id);
+													var tempChatId = tempArray5[y].split("'");
+													var blockChatId = tempChatId[1].split(":");
+													if(blockChatId[0] == id){
+														var realBlockChatId = blockChatId[1];
+													}else{
+														var realBlockChatId = blockChatId[0];
+													}
+												}
+												console.log("realBlockChatId",realBlockChatId);
+												var sql6 = 'select * from customer_info where c_id='+realBlockChatId;
+												connection.query(sql6,function(err,rowsxx){
+													if(err) console.log('err',err);
+													console.log('rowsxx',rowsxx);
+													var rowsx = rowsxx;
+													res.render('chatList',{rows:rows, rows2:rows2, rows7:rows7, rows8:rows8, rowsx:rowsx, rowsxx:rowsxx});
+												});
 											}
-											sql6 += ')';
-											connection.query(sql6,function(err,rowsxx){
-												if(err) console.log('err',err);
-												console.log('rowsxx',rowsxx);
-												res.render('chatList',{rows:rows, rows2:rows2, rows7:rows7, rows8:rows8, rowsx:rowsx, rowsxx:rowsxx});
-											});
 										});
 									}else{
 										//채팅방은 있는데 메시지가 없을 때

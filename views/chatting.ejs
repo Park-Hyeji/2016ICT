@@ -45,14 +45,14 @@
 				var friendName = $(this).parent().find($(".friend_nick")).text();
 				var arrowBox = $(this).parent().find((".arrow_box")).text();
 				var awid = $(this).attr('id');
+				var chat_id = "<%= rowss[0].chat_id %>"
 				//id값으로 select해서 나온 이미지 이름 넣기
 				$("#AccountWindowImg").attr('src',imgAddr);
 				$("#awName").append(friendName);
 				$("#awMsg").append(arrowBox);
 				$("#hideId").append(awid);
 				$(".btnBlock").click(function(){
-					var blockedId = awid;
-					var url = "http://ec2-52-39-64-143.us-west-2.compute.amazonaws.com:9000/block?id="+id+"&block="+blockedId;
+					var url = "http://ec2-52-39-64-143.us-west-2.compute.amazonaws.com:9000/block?id="+id+"&block="+awid+"&chat_id="+chat_id+"";
 					$(location).attr('href',url);
 				});
 				$(".btnCancel").click(function(){
