@@ -50,15 +50,12 @@ router.get('/',function(req, res){
 										}
 									}
 									sql5 += ') and c_id not in("'+id+'") order by field(chat_id'
-									console.log("sql53",sql5);
 									for(var u=0; u<rows8.length; u++){
 										tempArray4[u] = connection.escape(rows8[u].chat_id);
-										sql5 += ',';
-										if(u == rows8.length-1){
-											sql5 += tempArray4[u];
-										}else{
-											sql5 += tempArray4[u] + ",";
+										if(tempArray4[u] !== ""){
+											sql5 += ',';
 										}
+										sql5 += tempArray4[u];
 									}
 									sql5 += ')';
 									console.log("sql51",sql5);
@@ -77,15 +74,12 @@ router.get('/',function(req, res){
 											}
 										}
 										sql6 += ') order by field(c_id'
-										console.log("sql61",sql6);
 										for(var y=0; y<rowsx.length; y++){
-											sql6 += ',';
 											tempArray5[y] = connection.escape(rowsx[y].c_id);
-											if(y == rowsx.length-1){
-												sql6 += tempArray5[y];
-											}else{
-												sql6 += tempArray5[y] + ",";
+											if(tempArray5[y] !== ""){
+												sql6 += ',';
 											}
+											sql6 += tempArray5[y];
 										}
 										sql6 += ')';
 										connection.query(sql6,function(err,rowsxx){
@@ -173,14 +167,12 @@ router.get('/',function(req, res){
 											}
 										}
 										sql5 += ') and c_id not in("'+id+'") order by field(chat_id'
-										for(var u=0; u<rows8.length; u++){
-											sql5 += ',';
+										for(var u=0; u<rows8.length; u++){											
 											tempArray4[u] = connection.escape(rows8[u].chat_id);
-											if(u == rows8.length-1){
-												sql5 += tempArray4[u];
-											}else{
-												sql5 += tempArray4[u] + ",";
+											if(tempArray4[u] !== ""){
+												sql5 += ',';
 											}
+											sql5 += tempArray4[u];
 										}
 										sql5 += ')';
 										console.log("sql52",sql5);
@@ -200,15 +192,12 @@ router.get('/',function(req, res){
 													}
 												}
 												sql6 += ') order by field(c_id'
-												console.log("sql62",sql6);
 												for(var y=0; y<rowsx.length; y++){
-													sql6 += ',';
 													tempArray5[y] = connection.escape(rowsx[y].c_id);
-													if(y == rowsx.length-1){
-														sql6 += tempArray5[y];
-													}else{
-														sql6 += tempArray5[y] + ",";
+													if(tempArray5[y] !== ""){
+														sql6 += ',';
 													}
+													sql6 += tempArray5[y];
 												}
 												sql6 += ')';
 												connection.query(sql6,function(err,rowsxx){
