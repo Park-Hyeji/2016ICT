@@ -127,6 +127,13 @@
 					$("#awMsg").append(arrowBox);
 					$("#hideId").append(awid);
 					//차단하는 부분
+					if(id == awid){
+						$(".goChatting").hide();
+						$(".btnBlock").hide();
+					}else{
+						$(".goChatting").show();
+						$(".btnBlock").show();
+					}
 					$(".btnBlock").click(function(){
 						var blockedId = awid;
 						var url = "http://ec2-52-39-64-143.us-west-2.compute.amazonaws.com:9000/block?id="+id+"&block="+blockedId;
@@ -175,11 +182,10 @@
 						<div id="AccountWindowBack"></div>
 						<div><img id="AccountWindowImg"></div>
 						<div id="AccountWindowBtn">
+							<br><br><br>
 							<p id="awName"></p>
-							<br>
 							<p id="awMsg"></p>
 							<p id="hideId"></p>
-							<br>
 							<input type="button" class="goChatting" value="1:1채팅하기">
 							<input type="button" class="btnCancel" value="닫기">
 							<input type="button" class="btnBlock" value="차단하기">

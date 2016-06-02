@@ -16,6 +16,11 @@
 			var c_msg = new Array();
 			var name = new Array();
 			var c_img = new Array();
+			
+			$(".arrow_box").click(function(){
+				location.replace('stopBlock?id='+<%= id %>+'&blocked_id='+<%= rows2[i].c_id %>+');
+			});
+			
 			<%
 				for(var i=0; i< rows2.length; i++){
 			%>

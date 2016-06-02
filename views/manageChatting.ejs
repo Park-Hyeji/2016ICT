@@ -1,14 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login 페이지</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
-    <script src="/socket.io/socket.io.js"></script>
-	<link rel="stylesheet" href="stylesheets/style.css">
-    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
-	<script>
-	</script>
+	<head>
+		<title>manageChatting 페이지</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+		<script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script src="http://code.jquery.com/jquery-1.7.1.js"></script>
 	</head>
-	<body>
+	<body style="margin-top:10px; margin-left:10px">
+		나가고 싶은 채팅방을 클릭해주세요.
+		<script>
+			$(".friend_chat_list").click(function(){
+				var chat_id = $(this).attr("id");
+				var result = confirm('채팅창을 나가시겠습니까? (채팅방을 나가면 채팅 방 안의 내용이 사라집니다.)');
+				if(result){
+					location.replace('exitChatting?id='+<%= id %>+'&chat_id='+chat_id+');
+				}
+			});
+		</script>
+		<%
+			for(var j=0;j<rows7.length ;j++){
+		%>
+				<div class="friend_chat_list" id='<%= rowsx[j].c_id %>'>
+					<img class="friend_pic" src='<%= rowsxx[j].c_img_file %>'>
+					<div class="friend_font">
+						<div class="friend_nick">
+							<%= rowsxx[j].c_name %>
+						</div>
+						<div class="friend_chat">
+							<script>		
+								var eightLeng = <%= rows8.length %>;
+								if(eightLeng !== 0){
+								var Img = '<%= rows8[j].c_img_file %>';
+								if(Img == "" ){
+									document.write('<%= rows8[j].chat_msg %>');
+								}
+								else{
+									document.write('<img style="height:60px" src="<%= rows8[j].c_img_file %>">');
+									document.write('<%= rows8[j].chat_msg %>');
+								}
+							}
+							</script>
+						</div>
+					</div>
+					<div class="friend_date">
+						<%= rows8[j].chat_time %>
+					</div>
+				</div>
+				<hr>
+		<%
+			}
+		%>
 	</body>
 </html>

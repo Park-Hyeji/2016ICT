@@ -36,11 +36,11 @@ router.get('/', function(req,res,next){
 				connection.query(sql2,function(err,rows2){
 					if(err) console.err('err',err);
 					console.log('rows2',rows2);
-					res.render('manageFriend',{rows2:rows2})
+					res.render('manageFriend',{id:id, rows2:rows2})
 				});
 			}else{
 				var rows2 = [];
-				res.render('manageFriend',{rows2:rows2})
+				res.render('manageFriend',{id:id, rows2:rows2})
 			}	
 		});	
 		connection.release();

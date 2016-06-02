@@ -1,3 +1,12 @@
+#indexBody{
+	background-image:url('../images/CAU.gif');
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+}
+#chatListform{
+	margin-top:400px;
+	margin-left:300px;
+}
 ul.tabs {
     margin: 0;
     padding: 0;
@@ -286,7 +295,7 @@ ul.tabs li.active {
 }
 #AccountWindow{
 	width:400px;
-	height:700px;
+	height:500px;
 	position:absolute;
 	z-index:997;
 	border:1px solid #ccc;
@@ -294,13 +303,13 @@ ul.tabs li.active {
 }
 #AccountWindowBack{
 	width:400px;
-	height:450px;
+	height:350px;
 	position:absolute;
 	z-index:998;
 	background-color:#ffff00;
 }
 #AccountWindowImg{
-	margin-top:400px;
+	margin-top:250px;
 	margin-left:120px;
 	border-radius: 50%;
 	width:150px;
@@ -310,13 +319,23 @@ ul.tabs li.active {
 }
 #AccountWindowBtn{
 	width:400px;
-	height:250px;
+	height:190px;
 	position:absolute;
 	z-index:998;
-	margin-top:450px;
+	margin-top:350px;
 	background-color:#ffffff;
-	padding-top:130px;
 	padding-left:120px;
+	padding-top:10px;
+}
+#AccountWindowBtn2{
+	width:280px;
+	height:190px;
+	position:absolute;
+	z-index:998;
+	margin-top:350px;
+	background-color:#ffffff;
+	padding-left:120px;
+	padding-top:10px;
 }
 #exitTop{
 	margin-left:500px;
@@ -329,4 +348,12 @@ ul.tabs li.active {
 }
 #hideId{
 	display:none;
+}
+#awName{
+	width:100px;
+	margin-right:-20px;
+}
+#awMsg{
+	width:100px;
+	margin-right:-20px;
 }

@@ -19,7 +19,9 @@ var manageProfile = require('./routes/manageProfile');
 var manageChatting = require('./routes/manageChatting');
 var manageFriend = require('./routes/manageFriend');
 var changeProfile = require('./routes/changeProfile');
+var exitChatting = require('./routes/exitChatting');
 var block = require('./routes/block');
+var stopBlock = require('./routes/stopBlock');
 var session = require('express-session');
 var mysql = require('mysql');
 var pool = mysql.createPool({
@@ -67,6 +69,8 @@ app.use('/manageFriend',manageFriend);
 app.use('/changeProfile',changeProfile);
 app.use('/block',block);
 app.use('/imgWindow',imgWindow);
+app.use('/exitChatting',exitChatting);
+app.use('/stopBlock',stopBlock);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -114,6 +118,14 @@ io.sockets.on('connection' ,function(socket){
 	});
 	socket.on('leaveRoom',function(){
 		socket.leave(room_id); //룸퇴장
+		pool.getConnection(function(err,connection){
+			connection.query('delete from chat_room where chat_id=? and c_id=?',data,function(err,rows2){
+				console.log('approws',data);
+				if(err) console.err('err', err);
+				io.sockets.in(room_id).emit('chat message', msg);
+			});
+			connection.release();
+		});
 		console.log('채팅방을 나갔습니다.', io.sockets.adapter.rooms);
 	});
 	socket.on('new message', function(msg){
