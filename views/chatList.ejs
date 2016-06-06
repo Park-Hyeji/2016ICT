@@ -18,7 +18,8 @@
 			$(function () {
 				$("#AccountWindow").hide();
 				$("#friendAddWindowBack").hide();
-				$("#friendAddWindow").hide(); //친구 추가 div 안 보이게 함
+				$("#friendAddWindow").hide(); 
+				//친구 추가 div 안 보이게 함
 				//친구 추가 창 유동적으로 하는 부분
 				var windowWidth = $(window).width();
 				var windowHeight = $(window).height();
@@ -55,18 +56,21 @@
 					winObject = window.open(url,"CHATTING",settings);
 				});		
 
+				//프로필 관리 창 띄우기
 				$("#manageProfile").click(function(){
 					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=800,width=800,left=0,top=0";
 					var url = "manageProfile?id=" + id;
 					winObject = window.open(url,"manageProfile",settings);
 				});
 				
+				//채팅방 관리 창 띄우기
 				$("#manageChatting").click(function(){
 					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=1000,width=800,left=0,top=0";
 					var url = "manageChatting?id=" + id;
 					winObject = window.open(url,"manageChatting",settings);
 				});
 				
+				//친구 관리 창 띄우기
 				$("#manageFriend").click(function(){
 					var settings = "toolbar=0,directories=0,status=no,menubar=0,resizable=no,height=600,width=800,left=0,top=0";
 					var url = "manageFriend?id=" + id;
@@ -114,6 +118,7 @@
 					bool = 0;
 				});
 				
+				//친구 목록을 누르면 친구 상세 정보를 담고있는 div 띄우는 부분
 				$(".friend_list").click(function(){
 					$("#AccountWindow").show();
 					$("#friendAddWindowBack").show();
@@ -211,6 +216,7 @@
 					<b class="contentTop">전체 친구</b>&nbsp;&nbsp;<%= rows2.length %>
 					<hr class="gray">
 					<script>
+						//친구 정보 출력 부분
 						var c_msg = new Array();
 						var name = new Array();
 						var c_img = new Array();
@@ -229,6 +235,7 @@
 					</script>
 				</div>
 				<div id="tab2" class="tab_content">
+				<!-- 채팅방 출력 부분 -->
 				<!-- for문 돌리면서 div 생성 하는 부분-->
 				<%
 					for(var j=0;j<rows7.length ;j++){
@@ -243,12 +250,12 @@
 								<script>
 									var eightLeng = <%= rows8.length %>;
 									if(eightLeng !== 0){
-										var Img = '<%= rows8[j].c_img_file %>';
+										var Img = '<%= rows8[j].chat_img %>';
 										if(Img == "" ){
 											document.write('<%= rows8[j].chat_msg %>');
 										}
 										else{
-											document.write('<img style="height:60px" src="<%= rows8[j].c_img_file %>">');
+											document.write('<img style="height:60px" src="<%= rows8[j].chat_img %>">');
 											document.write('<%= rows8[j].chat_msg %>');
 										}
 									}

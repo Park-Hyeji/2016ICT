@@ -15,6 +15,7 @@ router.get('/', function(req, res) {
   res.render('login');
 });
 
+//친구 추가하는 부분
 router.post('/', function(req,res,next){
 	pool.getConnection(function(err,connection){
 		console.log("addFriend DB CONNECT");

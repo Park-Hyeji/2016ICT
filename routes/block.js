@@ -16,6 +16,7 @@ router.get('/', function(req,res,next){
 	var block = req.query.block;
 	var chat_id = req.query.chat_id;
 	
+	//친구 차단하기
 	pool.getConnection(function(err,connection){
 		console.log("Block DB CONNECT");
 		connection.query('insert into block values(?,?)',[id,block], function(err,rows){

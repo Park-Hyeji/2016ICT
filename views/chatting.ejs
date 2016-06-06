@@ -27,34 +27,46 @@
 			var splitString = window.location.search.split('?'); //url에서 처음부터 '?'까지 삭제
 			var splitString2 = splitString[1].split('&');
 			var id_temp = splitString2[0].split('=');
+			//로그인한 아이디 저장 값
 			var id = id_temp[1];
+			//로그인한 아이디 이름
 			var name = '<%= row[0].c_name %>';
 			var room_temp = splitString2[1].split('=');
+			//채팅 할 아이디 저장 값
 			var room = room_temp[1];
 			var bool = 0;			
 			var roomId;
 			var imgId;
 			var img="";
 			
+			//친구 상세 정보 창 숨김
 			$("#AccountWindow").hide();
 			$("#friendAddWindowBack").hide();
+			
+			//친구 이미지를 누른다면
 			$(".friend_pic").click(function(){
 				$("#AccountWindow").show();
 				$("#friendAddWindowBack").show();
+				//그 친구 정보 창에 붙이기
 				var imgAddr = $(this).attr('src');
 				var friendName = $(this).parent().find($(".friend_nick")).text();
-				var arrowBox = $(this).parent().find((".arrow_box")).text();
+				var arrowBox = "<%= c_row[0].c_msg %>";
 				var awid = $(this).attr('id');
-				var chat_id = "<%= rowss[0].chat_id %>"
+				var chat_id = "<%= rowss[0].chat_id %>";
+				
 				//id값으로 select해서 나온 이미지 이름 넣기
 				$("#AccountWindowImg").attr('src',imgAddr);
 				$("#awName").append(friendName);
 				$("#awMsg").append(arrowBox);
 				$("#hideId").append(awid);
+				
+				//차단하는 부분
 				$(".btnBlock").click(function(){
 					var url = "http://ec2-52-39-64-143.us-west-2.compute.amazonaws.com:9000/block?id="+id+"&block="+awid+"&chat_id="+chat_id+"";
 					$(location).attr('href',url);
 				});
+				
+				//친구 상세 정보 div 닫는 부분
 				$(".btnCancel").click(function(){
 					$("#AccountWindow").hide();
 					$("#friendAddWindowBack").hide();
@@ -157,9 +169,15 @@
 			//채팅방 나가기
 			$("#exitChatting").click(function(){
 				//sql처리
-				$("#exit").click(function(){
-					socket.emit('leaveRoom');
-				});
+				var result = confirm("채팅방을 나가시겠습니까?(해당 채팅 내용은 더 이상 표시되지 않습니다.)");
+				if(result){
+					socket.emit('leaveRoom',{
+						chat_id : '<%= rowss[0].chat_id %>', 
+						c_id : id
+					});
+					alert("채팅방을 나갔습니다.");
+					window.open("about:blank","_self").close();
+				}
 			});
 
 			//서버로 데이터 보내기
@@ -167,6 +185,7 @@
 				socket.emit('joinRoom',roomId);
 			});
 			
+			//서버로부터 데이터 받아서 뿌리기(채팅 내용)
 			socket.on('chat message', function(msg){
 			$("#messages-area").animate({scrollTop:$("#messages-area")[0].scrollHeight},'1000');
 				if(msg.id == id){
@@ -220,9 +239,11 @@
 				var splitString2 = splitString[1].split('&');
 				var id_temp = splitString2[0].split('=');
 				var id = id_temp[1];
+				//DB에서 해당 채팅창에 알맞은 데이터들을 뽑아오는 부분
+					//채팅 메시지 갯수만큼 데이터를 불러옴
 					<% 
 					if(rows2.length !== 0){
-						for (var j=0; j< rows2.length ; j++){					
+						for (var j=1; j< rows2.length ; j++){					
 					%>
 							if('<%= rows2[j].c_id%>' == id){
 								if('<%= rows2[j].chat_msg %>'){

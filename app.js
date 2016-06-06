@@ -116,20 +116,38 @@ io.sockets.on('connection' ,function(socket){
 		socket.join(room_id); //룸입장
 		console.log('채팅방 입장',io.sockets.adapter.rooms);
 	});
-	socket.on('leaveRoom',function(){
+	//채팅방 나가기
+	socket.on('leaveRoom',function(msg){
 		socket.leave(room_id); //룸퇴장
 		pool.getConnection(function(err,connection){
-			connection.query('delete from chat_room where chat_id=? and c_id=?',data,function(err,rows2){
-				console.log('approws',data);
-				if(err) console.err('err', err);
-				io.sockets.in(room_id).emit('chat message', msg);
+			console.log("메시지",msg);
+			connection.query('select * from chat_room where chat_id=?',msg.chat_id, function(err,rows3){
+				console.log('rows3',rows3);
+				if(err) console.log('err',err);
+				if(rows3.length == 1){
+					connection.query('delete from chat_msg where chat_id=?',msg.chat_id,function(err,rows4){
+						console.log('rows4',rows4);
+						if(err) console.log('err',err);
+					});
+					connection.query('delete from chat_room where chat_id=? and c_id=?',[msg.chat_id,msg.c_id],function(err,rows2){
+						console.log('approws',rows2);
+						if(err) console.log('err', err);
+						io.sockets.in(room_id).emit('chat message', msg);
+					});
+				}else{
+					connection.query('delete from chat_room where chat_id=? and c_id=?',[msg.chat_id,msg.c_id],function(err,rows2){
+						console.log('approws',rows2);
+						if(err) console.log('err', err);
+						io.sockets.in(room_id).emit('chat message', msg);
+					});
+				}
 			});
 			connection.release();
 		});
 		console.log('채팅방을 나갔습니다.', io.sockets.adapter.rooms);
 	});
 	socket.on('new message', function(msg){
-		//DB저장!!!
+		//채팅 메시지 DB에 저장
 		var data = [msg.roomId, msg.id, msg.name, msg.c_img, msg.message, msg.img, msg.time,1];
 		pool.getConnection(function(err,connection){
 			connection.query('insert into chat_msg(chat_id, c_id, c_name, c_img, chat_msg, chat_img, chat_time, chat_read) values(?,?,?,?,?,?,?,?)',data,function(err,rows){
